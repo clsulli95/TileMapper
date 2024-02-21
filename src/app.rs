@@ -1,41 +1,41 @@
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
+/// If we add new fields, give them default values when deserializing old state
 #[derive(serde::Deserialize, serde::Serialize)]
-#[serde(default)] // if we add new fields, give them default values when deserializing old state
-pub struct TemplateApp {
+#[serde(default)]
+pub struct TileMapper {
     // Example stuff:
     label: String,
 
-    #[serde(skip)] // This how you opt-out of serialization of a field
+    // This is how you opt-out of serializaiton of a field
+    #[serde(skip)]
     value: f32,
 }
 
-impl Default for TemplateApp {
+impl Default for TileMapper {
     fn default() -> Self {
         Self {
             // Example stuff:
-            label: "Hello World!".to_owned(),
+            label: "Shit!".to_owned(),
             value: 2.7,
         }
     }
 }
 
-impl TemplateApp {
+impl TileMapper {
     /// Called once before the first frame.
-    pub fn new(cc: &eframe::CreationContext<'_>) -> Self {
-        // This is also where you can customize the look and feel of egui using
-        // `cc.egui_ctx.set_visuals` and `cc.egui_ctx.set_fonts`.
-
+    #[must_use]
+    pub fn new(cc: &eframe::CreationContext) -> Self {
         // Load previous app state (if any).
         // Note that you must enable the `persistence` feature for this to work.
         if let Some(storage) = cc.storage {
             return eframe::get_value(storage, eframe::APP_KEY).unwrap_or_default();
         }
 
-        Default::default()
+        TileMapper::default()
     }
 }
 
-impl eframe::App for TemplateApp {
+impl eframe::App for TileMapper {
     /// Called by the frame work to save state before shutdown.
     fn save(&mut self, storage: &mut dyn eframe::Storage) {
         eframe::set_value(storage, eframe::APP_KEY, self);
