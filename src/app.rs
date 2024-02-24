@@ -88,6 +88,7 @@ impl eframe::App for TileMapper {
 
             ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
                 powered_by_egui_and_eframe(ui);
+                powered_by_egui_and_eframe(ui);
                 egui::warn_if_debug_build(ui);
             });
         });

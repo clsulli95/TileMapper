@@ -43,7 +43,7 @@ fn main() -> Result<(), anyhow::Error> {
 
 // When compiling to web using trunk:
 #[cfg(target_arch = "wasm32")]
-fn main() -> Result<(), anyhow::Error> {
+fn main() {
     // Redirect `log` message to `console.log` and friends:
     eframe::WebLogger::init(log::LevelFilter::Debug).ok();
 
@@ -57,7 +57,6 @@ fn main() -> Result<(), anyhow::Error> {
                 Box::new(|cc| Box::new(tilemapper::TileMapper::new(cc))),
             )
             .await
-            .map_err(TileMapperError::ApplicationLaunchFail)
-            .map_err(|e| anyhow!(e.to_string()))
+            .expect("Failed to start eframe");
     });
 }
